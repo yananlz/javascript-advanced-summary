@@ -1,0 +1,26 @@
+类型：对语言引擎和开发人员来说，类型是值的内部特征，它定义了值得行为，以使区别于其他值。
+JS7种内置类型：Null Undefined Boolean Number String Object Symbol(符号ES6新增)，除Object外，其余为基本类型。
+typeof返回的是类型的字符串值。例：typeof undefined   “undefined”特例：typeof null  “object”
+function(函数)是JS的一个内置类型，实质是一个object的子类型。函数是一个可调用对象，内部有一个属性[[call]],该属性使其可以以被调用。
+JS变量没有类型，只有值才有。
+undefined：声明但没有赋值。uncleared：未声明。not defined不等价于undefined，等价于uncleared
+DEBUG为“调试模式”开关。var DEBUG=true只在debug.js文件中才有，该文件只在开发和测试时才被加载到浏览器，在生产环节不加载。
+delete运算符虽然可以将单元从数组中删除，但是数组的length属性不会改变。
+JS中字符串和字符数组不一样。例：var a="foo"; var b={"f","o","o"}
+字符串不可变的含义是：字符串的成员函数不会改变其原始值，而是创建并返回一个新的字符串。数组的成员函数都是在其原始值上进行操作。
+Array.prototype本身是一个数组，也拥有属性和方法。Array.prototype属性表示Array构造函数的原型，并允许用户向Array添加属性和方法。
+JS中的整数：没有小数的十进制数。故：42.0=整数42。
+JS中特别大和特别小的数字默认用指数格式显示，与toExponential()函数输出结果相同。
+例：var a=5E10; a;//50000000000 a.tooExponential();//"5e+10"
+Number各类方法：tofixed():可以指定小数部分显示位数；toPrecision()：可以用来指定有效位数的显示位数。
+.运算符首先被识别为数字常量的一部分，其次才是对象属性访问运算符。
+10..makeItRain():实现10s金钱雨动画。
+不建议使用的格式：0363//243的八进制、0O363。
+JS浮点数的“机器精度”（误差范围）一般是2^-52(2.220446049259313e-16),定义在Number.EPSILON中，可以直接使用。
+JS最大整数的安全范围为：2^53-1(9007199254740991),定义在Number.MAX_SAFE_INTEGER，最小整数为其负数，定义在Number.MIN_SAFE_INTEGER。
+整数检测：检测是否为整数Number.isInteger(0);//true  检测是否为安全的整数：Number.isSafeInteger(0);//true
+null:只空值（曾赋过值，但是目前没有值。）。undefined：指没有值（从未赋值）。
+void运算符可以得到undefined值。void并不改变表达式的结果，只是让表达式不返回值。例：var a=42;console.log(void a,a);//undefined 42
+NaN不是一个有效数值/坏数值，但是为数字类型。可以理解它为一个警戒值：用于指出数字类型中的错误情况（即执行数学运算没有成功，这是失败返回后的结果。）
+NaN!=NaN，可以利用Number.isNaN()来检验一个数值是否为NaN。或利用它的非自反特性来检验。
+P47页零值。
