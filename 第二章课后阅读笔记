@@ -23,4 +23,4 @@ null:只空值（曾赋过值，但是目前没有值。）。undefined：指没
 void运算符可以得到undefined值。void并不改变表达式的结果，只是让表达式不返回值。例：var a=42;console.log(void a,a);//undefined 42
 NaN不是一个有效数值/坏数值，但是为数字类型。可以理解它为一个警戒值：用于指出数字类型中的错误情况（即执行数学运算没有成功，这是失败返回后的结果。）
 NaN!=NaN，可以利用Number.isNaN()来检验一个数值是否为NaN。或利用它的非自反特性来检验。
-P47页零值。
+判断两个值是否相等：Object.is(a,b)
