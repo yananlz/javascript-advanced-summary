@@ -1,1 +1,71 @@
 《深入理解JavaScript》第17章相关内容 
+JS中的面向对象（OOP）分为几层：第一层：单一对象的面对对象；第二层：对象间的原型链；第三层：作为实例工厂的构造函数，类似于其他语言中的类；
+第四层：子类，通过继承已有的构造函数，创建新的构造函数。
+JS中的所有对象都是从字符串到值的映射。
+属性的分类：数据属性、访问器属性、内置属性。
+数据属性：对象中普通属性，包括方法被称为数据属性。
+访问器属性：类似于读、写属性的特殊方法。访问器属性可以计算属性的值，可以看成是虚拟的属性。
+内置属性：只存在于ECMAScript语言规范中。它们不能被JS直接访问，但可以间接访问。内置属性的值在[]中。例如：[[Prototype]]持有一个对象的原型，并可以通过Object.getPrototypeOf()访问。
+JS的对象字面量可以直接创建简单对象（Object的直接实例）。
+ECMAScript5允许对象字面量的最后一个属性之后跟一个逗号，但不是所有浏览器都支持。
+获取对象的属性：Object.属性名/Object[]
+如果一个属性不存在，给它赋值时会自动创建该属性，如果一个属性已经存在，赋值时会改变该属性的值。
+delete可以从一个对象中完全移除一个属性。 delete Object.属性名。如果属性是自有属性，且不能被删除，delete会返回一个false。
+保留字可以作为对象属性的名字（键）。例如：var function；数字也可以作为属性的键，会被解析为字符串。
+点操作符只能访问键为标识符的属性，中括号操作符来访问键为数字的属性。对象字面量也可以使用任意字符串作为属性的键，但是必须加上引号，用中括号操作符来访问这些属性的值。
+中括号操作符会将括号中的内容强制转换为字符串。
+把任意值转换为对象：Object可以提供这个服务:无参数调用、undefined、null均会转换为{}。
+call(thisValue,arg1,arg2,……)：第一个参数会赋值给被调用函数内的this,剩余的参数传入被调函数。
+apply(thisValue,argArray):第一个参数会赋值给被调用函数内的this,第二个参数是一个数组，为被调用函数提供参数。
+bind(thisValue,arg1,arg2,……)：创建一个新的函数，并用接下来的方式调用bind()，this的值是thisValue,剩余的参数是新函数的参数。
+换句话说：当调用原来的函数时，新函数将其参数追加到arg1,arg2,……，argN的后面。
+JS中的（...）三点运算符：可以把数组转换为实际参数。这个操作符可以对数组使用Math.max()。
+例如：Math.max(...[13,7,30])等价于：Math.max(13,7,30)
+两个对象间的原型关系类似于继承：每个对象都可以把另一个对象作为它的原型，并继承原型的所有属性。
+通过[[Prototype]]属性连接成的对象链称为原型链。
+在一个原型链中，一个对象的属性可以覆写“之后”对象的相同键的属性：前者的属性被最先找到，它隐藏了后者的属性。这种工作原理类似于基于类的语言中的方法重写。
+共享可以解决内存问题。常见的模型：数据保存在原型链的第一对象中，而方法保存在后面的对象中。例：var jane={[[Prototype]]:PersonProto,name:'Jane'};
+使用给定prototype创建新对象：调用方法：Object.create(proto,propDescObj?)。创建原型为proto的对象。
+读取对象原型：object.getPrototypeOf(obj):返回obj的原型。检查一个对象是否是另一个对象的原型：Object.prototype.isPrototypeof(obj)
+__proto__不属于CEMAScript5标准。然而，很多引擎开始支持__proto__,它将成为ECMScritp6的一部分。
+设置和删除仅影响自有属性。原型属性可以由多个对象共享，这种方式不会改变原有属性，只是影响当前对象。
+遍历和检测属性的相关操作受如下情况影响：继承、枚举。
+Object.getOwnPropertyNames(obj):返回obj的所有自有的属性键。Object.keys(obj)：返回obj的所有可枚举的属性键。
+遍历所有属性的函数创建：
+function getAllPropertyNames(obj){
+  var result=[];
+  while(obj){
+    Array.protorype.push.apply(result,Object.getOwnPropertyNames(obj));
+    obj=Object.getPrototypeOf(obj);
+   }
+   return result;
+ }
+ propKey in obj:如果obj拥有一个键为propKey的属性，则返回true。这个测试也包含继承的属性。
+ Object.prototype.hasOwnProperty(prokey):判断是否为自有属性。 
+for-in循环：返回所有可枚举的属性的键。Object.keys():返回所有（非继承）可枚举属性的键。Object.getOwnPropertyNames():返回所有自有属性的键。
+计算对象自有属性的个数：Object。keys(obj).length
+属性特性是属性的原子构建块。属性描述符是一种数据结构，用于编程处理特性。
+所有的属性状态，包括它的数据和元数据，都存储在特性中。它们是拥有的字段，就像对象拥有的属性。
+[[Get]]:持有getter，读取属性时调用的函数；[[Set]]：持有setter,为属性设置值时调用的函数。
+[[Configurable]]:t特例：JS允许把非配置属性从可写状态变成只读状态。数组的属性length总是可写的，但不可配置。如果没有这个例外，就无法冻结数组。
+为了创建一个对象完全相同的拷贝，必须确保两件事：拷贝必须具有与原对象相同的原型；拷贝必须具有与原对象相同的属性和特性。
+继承的只读属性不能被赋值。
+保护对象三个层次由弱到强：防止扩展、封闭、冻结。
+防止扩展：Object.preventExtensions(obj) 检查对象是否可扩展：Object.isExtensible(obj)
+封闭：Object.seal(obj) 检查一个对象是否封闭：Object.isSealed(obj)
+冻结：Object.freeze(obj):所有的属性不可写，且封闭obj 检查一个对象是否冻结：Object.isFrozen(obj)
+instanceof：可以用来检查一个对象是否为给定构造函数的实例。
+constructor属性的用例：1.切换对象的构造函数2.确定对象的构造函数名3.创建相似对象4.指向父构造函数
+如果相同的属性，在几个原型中同时存在，称为多态。
+公有属性：存储在属性中的值（实例或它的原型）是可以公共访问的。
+私有值：存储在环境中的数据和函数是私有的————只有构造函数和构造函数所创建的函数可以访问。
+特权方法：原型中的公有方法不能访问私有数据，因此，我们需要特权方法————实例中的共有方法。
+特权方法是公有的，且可以被任何实例调用，而这种方法也可以访问私有值，因为她们都是在构造函数中创建的。
+Crockford私有模式的利弊:不优雅、完全安全、可能比较慢、会消耗更多的内存。
+一个方法的主对象是一个对象，它具有一个属性且该属性的值指向这个方法。
+泛型方法：借用原型方法。
+chablis.incAge(1)：chablis是该方法调用的接收者，通过this传入incAge
+wine.prototype.incAge.call(chablis,1)使用该模式，可以把不是wine实例的对象作为接收者 。
+Object作为Map使用的缺陷：继承影响读取属性、覆写会影响调用方法、特殊属性__proto__
+
+
