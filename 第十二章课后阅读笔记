@@ -1,1 +1,15 @@
 《深入理解JavaScript》第 10/11/12/15/20 章
+手动转换为布尔值：Boolean(value) ; value ? true : false; !! value
+假值：undefined  null 0 NaN 
+Boolean函数的两种调用方式：Boolean(value)  new Boolean(bool)
+JS把所有的数字都作为浮点数。JS数字是双精度（64位），基于浮点算术的IEEEbi标准。
+一个数字字面量可以是整形、浮点型、或十六进制整型。
+指数e^x是10^x缩写。 5e^2 500。
+对于数字字面量，用来访问一个属性的点必须要和小数点的点区别开来。例如：123..toString()。
+手动转换为数字： Number(value) ;+value
+检查一个值是否是NaN: isNaN(value)&& value='number'
+Infinity是一个错误值，指出了两种错误:一个大到无法表示的数字，或者除以了0。
+Infinity使用普通运算符会得到错误的结果。
+JS数字的数值和符号是分开存储的，因此每一个非负数都有一个负值，包括0。
+如何区分两种零：Math.pow(-0,-1) -Infinity Math.pow(+0,-1) Infinity。
+
