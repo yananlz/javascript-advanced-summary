@@ -1,4 +1,3 @@
-《深入理解JavaScript》第 15/20 章
 手动转换为布尔值：Boolean(value) ; value ? true : false; !! value
 假值：undefined  null 0 NaN 
 Boolean函数的两种调用方式：Boolean(value)  new Boolean(bool)
@@ -43,3 +42,14 @@ Date.prototype.getUTC<<Unit>>()：根据世界时间返回单位时间。Date.pr
 将日期转换为字符串：时间：Date.prototype.toTimeString();Date.prototype.toLocaleTimeString()
 Date:Date.prototype.toDateString()  Date.prototype.toLocalDateString() 
 日期和时间：Date.prototype.toString() Date.protorype.toLocalString() Date.prototype.toUTCString()
+JS函数的多种调用形式：普通函数、构造器、方法。JS中函数定义的多种形式：通过函数表达式、通过函数声明、通过Function（）构造器。
+func.apply(thisValue,argArray):在调用func时，argArray参数将作为函数的arguments传递给函数，thisValue这个参数则可以指定执行func时this值。在非面向对象的调用中它不是必要的，
+因此我们可以把它设成null。func.(arg1,arg2,arg3)等价于func.apply(null,[arg1,arg2,arg3])。apply（）往往用在一个函数需要以类似数组（但又不是数组）的形式接收多个参数。
+func.bind(thisValue,arg1,……argN):该方法会创建一个新的函数，这个函数会调用func，并会将thisValue指定为this，同时应用以下参数：arg1到argN，紧随其后的是新函数的实际参数，
+在非面向对象的调用中，我们将thisValue设定为了null。
+arguments：类数组，但不是数组，拥有length属性，但是没有数组的方法，是一个对象支持所有的对象方法和操作。
+arguments.callee指向了当前的调用函数。一般用于匿名函数的自递归调用，严格模式禁用。在非严格模式中，当你改变了一个参数，arguments会实时地变化，严格模式禁用。
+
+
+
+
