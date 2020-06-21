@@ -1,4 +1,3 @@
-《JavaScript权威指南》第18章
 超文本传输协议(HTTP):规定Web浏览器如何从web服务器获取文档和向Web服务器提交表单内容，以及Web服务器如何响应这些请求和提交。
 通常，HTTP并不在脚本的控制下，只是当用户单击链接、提交表单和输入URL时才会发生。
 Ajax描述了一种主要使用脚本操纵HTTP的Web应用架构。Ajax应用的主要特点：是使用脚本操纵HTTP和Web服务器进行数据交换，不会导致页面重载。避免页面重载的能力使Web应用感觉更像传统的桌面应用。
@@ -27,3 +26,24 @@ XML有时也用于数据传输的编码。JS对象的用表单编码或JSON编�
 HTML表单的特性之一是当用户通过<input type="file">元素选择文件时，表单将在它产生的POST请求主体中发送文本内容。HTML表单目前还不能使用XMLHttpRequest API做相同的事情。
 没有File()对象构造函数，脚本仅能获得表示用户当前选择文件的File对象。在支持File对象的浏览器中，每个<input type="file">元素有一个files属性，它是File对象中的类数组对象。
 拖放API允许通过拖放事件的dataTransfer.files属性访问用户“拖放”到元素上的文件。
+当HTML表单同时包含文件上传元素和其他元素时，浏览器必须使用称为“multipart/form-data”的特殊Content-Type来用POST方法提交表单。这种编码包括使用长“边界”字符串把请求主体分离成多个部分。
+对于文本数据，手动创建“multipart/form-data”请求主体是可能的，但很复杂。
+XHR2定义了新的FormData API，它容易实现多部分请求主体。首先，使用FormData()构造函数创建FormData对象，然后按需多次调用这个对象的append()方法把个体“部分”(可以是字符串、File或Blob对象)
+添加到请求中。最后，把FormData对象传递给send()方法。send()方法。send()方法将对请求定义合适的边界字符串和设置“Content-Type”头。
+一个完成的请求不一定是成功的请求，例如：load事件的处理程序应该检查XMLHttpRequest对象status状态码来确定收到的是“200ok”的HTTP响应。
+HTTP请求无法完成的3种情况：请求超时：会触发timeout事件。请求中止：会触发abort事件。最后，像太多重定向这样的网络错误会阻止请求完成，但这些情况会触发error事件。
+对于任何具体请求，浏览器只会触发load、abort、timeout、error事件中的一个。
+可以通过XMLHttpRequest对象的addEventListener()方法为这些progress事件中的每个都注册处理程序。如果每种事件都只有一个事件处理程序，通常更容易的方法是只设置对应的处理程序属性，
+比如：onprogress和onload。甚至可以使用这些事件属性是否存在来测试浏览器是否支持progress事件。
+除了像type和timestamp这样常用的Event对象属性外，与这些progress事件相关联的事件对象还有3个有用的属性。loaded属性是目前传输的字节数值。
+total属性是自“Content-Length”头传输的数据的整体长度(单位是字节)，如果不知道内容长度则为0。最后，如果知道内容长度则lengthComputable属性为true。
+对于XMLHttpRequest对象x,设置x.onprogress以监控响应的下载进度，并且设置x.unload。onprogress以监控请求的上传进度。
+abort()方法来取消正在进行的HTTP请求。abort()方法在所有的XMLHttpRequest版本和XHR2中可用，调用abort()方法在这个对象上触发abort事件。
+作为同源策略的一部分，XMLHttpRequest对象通常仅可以发起和文档具有相同服务器的HTTP请求。这个限制关闭了安全漏洞，但它笨手笨脚并且也阻止了大量合适使用额跨域请求。
+可以在<form>和<iframe>元素中使用跨域URL，而浏览器显示最终的跨域文档。但因为同源策略，浏览器不允许原始脚本查找跨域文档的内容。使用XMLHttpRequest,文档内容都是通过responseText属性暴露，
+所以同源策略不允许XMLHttpRequest进行跨域请求。
+XHR2通过在HTTP响应中选择发送合适的CORS允许跨域访问网站。
+Ajax传输机制：只须设置<script>元素的src属性，然后浏览器会发送一个HTTP请求以下载src属性所指向的URL。使用<script>元素进行Ajax传输的一个主要原因是：
+它不受同源策略的影响，因此可以使用它们从其他的服务器请求数据，第二个原因是包含JSON编码数据的响应体会自动解码。
+这种使用<script>元素作为Ajax传输的技术称为JSONP。若HTTP请求所得到的响应数据是经过JSON编码的，则适合使用该技术。P代表“填充”或“前缀”。
+在服务器端推送事件的标准草案中定义了一个EventSource对象，简化了Comet应用程序的编写可以传递一个URL给EventSource（）构造函数，然后在返回的额实例上监听消息事件。
