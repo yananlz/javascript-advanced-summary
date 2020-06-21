@@ -1,1 +1,29 @@
 《JavaScript权威指南》第18章
+超文本传输协议(HTTP):规定Web浏览器如何从web服务器获取文档和向Web服务器提交表单内容，以及Web服务器如何响应这些请求和提交。
+通常，HTTP并不在脚本的控制下，只是当用户单击链接、提交表单和输入URL时才会发生。
+Ajax描述了一种主要使用脚本操纵HTTP的Web应用架构。Ajax应用的主要特点：是使用脚本操纵HTTP和Web服务器进行数据交换，不会导致页面重载。避免页面重载的能力使Web应用感觉更像传统的桌面应用。
+Web应用可以使用Ajax技术把用户的交互数据记录到服务器中，也可以开始只显示简单页面，之后按需加载额外的数据和页面组件来提升应用的启动时间。
+Comet是和使用脚本操纵HTTP的Web应用架构相关的属于。Comet和Ajax在某种意义上相反。
+在Comet中，Web服务器发起通信并异步发送消息到客户端。如果Web应用需要响应服务器发送的消息，则它会使用Ajax技术发送或请求数据。
+在Ajax中，客户端从服务端“拉”数据，而在Comet中，服务端向客户端“推”数据。Comet还包括其他名词，例如：服务器推、Ajax推、HTTP流。
+Ajax中的x标识XML,这个HTTP的主要客户端API在其名字中突出了XML。
+XMLHttpRequest:浏览器在XMLHttpRequest类上定义了它们的HTTP API。这个类的每个实例都表示一个独立的请求/响应对，并且这个对象的属性和方法允许指定请求细节和提取响应数据。
+一个HTTP请求由4部分组成：HTTP请求方法或“动作”;正在请求的URL;一个可选的请求头集合，其中可能包括身份验证信息;一个可选的请求主体。
+服务器返回HTTP响应包含3部分：一个数字和文字组成的状态码，用来显示请求的成功和失败;一个响应头集合;响应主体。
+创建XMLHttpRequest对象之后，发起HTTP请求的下一步是调用XMLHttpRequest对象的open()方法去指定这个请求的两个必须部分：方法和URL。request.open("GET","data.csv")//开始一个HTTP GET请求 URL内容
+“GET”:用于常规请求，它适用于URL完全指定请求资源，当请求对服务器没有任何副作用以及当服务器的响应是可缓存时。
+“POST”:方法常用于HTML表单，它在请求主体中包含额外数据(表单数据)且这些数据常存储到服务器上的数据库中(副作用)。相同URL的重复POST请求从服务器得到的响应可能不同，同时不应该缓存使用这个方法的请求。
+GET请求没有主体POST请求通常拥有主体，同时它应该匹配使用setRequestHeader()指定的“Content-Type”头。
+HTTP请求的各部分有指定顺序：请求方法和URL首先到达，然后是请求头，最后是请求主体。XMLHttpRequest实现通常直到send()方法才开始启动网络。
+一个完整的HTTP响应由状态码、响应头集合和响应主体组成。这些都可以通过XMLHttpRequest对象的属性和方法使用：status、statusText、getResponseHeader()、getAllResponseHeaders()、responseText。
+status和statusText属性以数字和文本的形式返回HTTP状态码。这些属性保存标准的HTTP值。200表示请求成功。400表示URL不能匹配服务器上的任何资源。
+getResponseHeader()和getAllResponseHeaders()能查询响应头。XMLHttpRequest会自动处理cookie：它会从getAllResponseHeaders()头返回集合中过滤掉cookie头，而如果给getResponseHeader()
+传递“Set-Cookie”和“Set-Cookie2”则返回null。
+响应主体可以从responseText属性中得到文本形式的，从responseXML属性中得到Document形式的。
+同步响应应避免使用它们。客户端JS是单线程的，当send()方法阻塞时，它通常会导致整个浏览器UI冻结。如果连接的服务器响应慢，那么客户的浏览器将冻结。
+如果服务器想发送诸如对象或数组这样的结构化数据作为其响应，它应该传输JSON编码的字符串数据。当接收它时，可以把responseText属性传递给JSONparse()。Web服务端通常使用二进制数据响应HTTP请求。
+responseText属性只能用于文本，且它不能妥善处理二进制响应，即使对最终字符串使用了charCodeAt()方法。
+XML有时也用于数据传输的编码。JS对象的用表单编码或JSON编码版本所表达的pizza查询，也能用XML文档来表示它。
+HTML表单的特性之一是当用户通过<input type="file">元素选择文件时，表单将在它产生的POST请求主体中发送文本内容。HTML表单目前还不能使用XMLHttpRequest API做相同的事情。
+没有File()对象构造函数，脚本仅能获得表示用户当前选择文件的File对象。在支持File对象的浏览器中，每个<input type="file">元素有一个files属性，它是File对象中的类数组对象。
+拖放API允许通过拖放事件的dataTransfer.files属性访问用户“拖放”到元素上的文件。
